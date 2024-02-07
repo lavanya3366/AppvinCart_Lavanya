@@ -36,7 +36,7 @@
                   <li><a class="dropdown-item" href="{% url 'category' 'TB'%}">Tab</a></li>
                   <li><a class="dropdown-item" href="{% url 'category' 'PH'%}"></a>Phone</li>
                   <li><a class="dropdown-item" href="{% url 'category' 'LP'%}"></a>Laptop</li>
-                  <li><a class="dropdown-item" href="{% url 'category' 'LP'%}"></a>Computer</li>
+                  <li><a class="dropdown-item" href="{% url 'category' 'CP'%}"></a>Computer</li>
                   <li><a class="dropdown-item" href="{% url 'category' 'WT'%}"></a>Watches</li>
                   <li><a class="dropdown-item" href="{% url 'category' 'TV'%}"></a>Television</li>
                   <li><hr class="dropdown-divider"></li>
@@ -44,10 +44,10 @@
                 </ul>
               </li>
               <li class="nav-item">
-                <a class="nav-link text-white" href="#">About Us</a>
+                <a class="nav-link text-white" href="{% url 'about'%}">About Us</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link text-white" href="#">Contact Us</a>
+                <a class="nav-link text-white" href="{% url 'contact' %}">Contact Us</a>
               </li>
 
             </ul>
@@ -79,7 +79,7 @@
                 <a href="#" class="nav-link text-white">Login </a>
             </li>
             <li class="nav-item mx-2">
-                <a href="#" class="nav-link text-white">Registration</a>
+                <a href="{% url 'customerregistration' %}" class="nav-link text-white">Registration</a>
             </li>
 
           </ul>

@@ -6,7 +6,8 @@ CATEGORY_CHOICES=(
     ('LP','laptop'),
     ('PH','phone'),
     ('WT','watch'),
-    ('TV','television')
+    ('TV','television'),
+    ('CP','computer')
 )
 class Product(models.Model):
     title=models.CharField(max_length=100)
