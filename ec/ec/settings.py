@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',
+    'account',
 ]
 
 MIDDLEWARE = [
@@ -83,14 +84,14 @@ WSGI_APPLICATION = 'ec.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-        # 'ENGINE': 'django.db.backends.mysql',
-        # 'NAME': 'ecommerce',
-        # 'HOST': '127.0.0.1',
-        # 'PORT': '3306',
-        # 'USER' : 'root',
-        # 'PASSWORD' : 'lavanya',
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        # 'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'ecommerce',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+        'USER' : 'root',
+        'PASSWORD' : 'Lavanya',
         
     }
 }
@@ -118,10 +119,16 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
        
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+    ),
+    'DEFAULT_RENDERER_CLASSES':('rest_framework.renderers.JSONRenderer',)
   
 }
-
+DJOSER = {
+    "SERIALIZERS": {
+        "user_create": "core.serializers.UserCreateSerializer",
+        "current_user": "core.serializers.UserSerializer",
+    }
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
@@ -148,7 +155,7 @@ MEDIA_ROOT=BASE_DIR/'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
+AUTH_USER_MODEL='account.User'
 ...
 # JWT Settings
 SIMPLE_JWT = {
@@ -180,6 +187,6 @@ SIMPLE_JWT = {
     "SLIDING_TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
 }
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8080",
-    "http://127.0.0.1:9000",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
 ]
