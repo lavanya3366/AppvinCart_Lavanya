@@ -25,9 +25,7 @@
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="/">Home</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-              </li>
+              
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Products
@@ -43,6 +41,19 @@
                   <li><a class="dropdown-item" href="#">Something else here</a></li>
                 </ul>
               </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownSort" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Sort Options
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdownSort">
+                    <li><a class="dropdown-item" href="{% url 'product_list' %}?sort=high_to_low">Price: High to Low</a></li>
+                    <li><a class="dropdown-item" href="{% url 'product_list' %}?sort=low_to_high">Price: Low to High</a></li>
+                    <div class="dropdown-divider"></div>
+                </ul>
+            </li>
+            
+            
+            
               <li class="nav-item">
                 <a class="nav-link text-white" href="{% url 'about'%}">About Us</a>
               </li>
@@ -70,11 +81,9 @@
                 </ul>
             </li>
             <li class="nav-item mx-2">
-                <a href="{% url 'showcart' %}" class="nav-link text-white">Cart </a>
+                <a href="{% url 'showcart' %}" class="nav-link text-white"><span class="badge bg-danger">{% if totalitem > 0 %}{{totalitem}}{% endif %}</span>Cart </a>
             </li>
-            <li class="nav-item mx-2">
-                <a href="#" class="nav-link text-white">Wishlist </a>
-            </li>
+
             <li class="nav-item mx-2">
                 <a href="#" class="nav-link text-white">Login </a>
             </li>
@@ -88,6 +97,7 @@
       {% block banner-slider%}{%endblock banner-slider%}
       {%block information %}{%endblock information %}
    {% block main-content%}{%endblock main-content%}
+   {% block payment-gateway%}{%endblock payment-gateway%}
    <footer class='container-fluid fixed-bottom bg-success text-center p-2 mt-5'>
     Copyright:2024 || Develop by : Lavanya
 

@@ -220,3 +220,5 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
 ]
+RAZOR_KEY_ID="rzp_test_Stf3r7C4h5hFH8"
+RAZOR_KEY_SECRET="vmPnivIvVdowhaQn7q7PaxYz"
