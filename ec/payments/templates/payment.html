@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Form</title>
+    <script src="https://js.stripe.com/v3/"></script>
+    <style>
+        /* Add your custom CSS styles here */
+    </style>
+</head>
+<body>
+
+<h1>Payment Form</h1>
+
+<form id="payment-form">
+    <div>
+        <label for="card-element">
+            Credit or debit card
+        </label>
+        <div id="card-element">
+            <!-- A Stripe Element will be inserted here. -->
+        </div>
+        <!-- Used to display form errors. -->
+        <div id="card-errors" role="alert"></div>
+    </div>
+
+    <button id="submit-button">Submit Payment</button>
+</form>
+
+<script>
+    // Create a Stripe client.
+    var stripe = Stripe('pk_test_51OjzIASJ953jewJiOuQ6eIBMX0bYJjK24T0la6mSqgeexEOxPxe18E2H0hOhi3aq28I7S2lx2xrqQPlpXn46ttBw00rkfoE65a');
+
+    // Create an instance of Elements.
+    var elements = stripe.elements();
+
+    // Create an instance of the card Element.
+    var card = elements.create('card');
+
+    // Add an instance of the card Element into the card-element div.
+    card.mount('#card-element');
+
+    // Handle real-time validation errors from the card Element.
+    card.addEventListener('change', function(event) {
+        var displayError = document.getElementById('card-errors');
+        if (event.error) {
+            displayError.textContent = event.error.message;
+        } else {
+            displayError.textContent = '';
+        }
+    });
+
+    // Handle form submission.
+    var form = document.getElementById('payment-form');
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        // Disable the submit button to prevent multiple submissions.
+        document.getElementById('submit-button').disabled = true;
+
+        // Create payment method.
+        stripe.createPaymentMethod('card', card).then(function(result) {
+            if (result.error) {
+                // Show error message to your user.
+                var errorElement = document.getElementById('card-errors');
+                errorElement.textContent = result.error.message;
+
+                // Enable the submit button.
+                document.getElementById('submit-button').disabled = false;
+            } else {
+                // Send payment method ID to your server.
+                var paymentMethodId = result.paymentMethod.id;
+                // You can now submit this paymentMethodId to your Django backend for further processing.
+                console.log('Payment Method ID:', paymentMethodId);
+
+                // For demonstration purposes, this example just displays a success message.
+                alert('Payment successful! Payment Method ID: ******' );
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

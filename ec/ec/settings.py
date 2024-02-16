@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'corsheaders',
     'account',
+    'payments.apps.PaymentsConfig',
 ]
 
 MIDDLEWARE = [
@@ -81,8 +82,8 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS':  [
-            os.path.join(BASE_DIR, 'template'),  # First template directory
-            os.path.join(BASE_DIR, 'app', 'templates', 'account'),  # Second template directory
+            os.path.join(BASE_DIR, 'templates'),  # First template directory
+            #os.path.join(BASE_DIR, 'app', 'templates', 'account'),  # Second template directory
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -174,8 +175,13 @@ MEDIA_ROOT=BASE_DIR/'media'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
+# DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # AUTH_USER_MODEL='account.User'
+# AUTHENTICATION_BACKENDS=[
+#     'django.contrib.auth.backends.ModelBackend'
+# ]
+
+#AUTH_USER_MODEL='account.User'
 
 # Email Configuration
 EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend"
@@ -222,3 +228,9 @@ CORS_ALLOWED_ORIGINS = [
 ]
 RAZOR_KEY_ID="rzp_test_Stf3r7C4h5hFH8"
 RAZOR_KEY_SECRET="vmPnivIvVdowhaQn7q7PaxYz"
+
+STATIC_URL='/static/'
+STRIPE_PUBLIC_KEY=""
+STRIPE_SECRET_KEY=""
+STRIPE_WEBHOOK_SECRET=""
+#PAYMENT METHOD-ID-GENERATE
