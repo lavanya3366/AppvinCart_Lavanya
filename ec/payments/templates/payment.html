@@ -26,8 +26,9 @@
     </div>
 
     <button id="submit-button">Submit Payment</button>
-</form>
 
+</form>
+<a class="btn btn-outline-dark" href="{% url 'process_payment' %}">&#x2190;show payment</a>
 <script>
     // Create a Stripe client.
     var stripe = Stripe('pk_test_51OjzIASJ953jewJiOuQ6eIBMX0bYJjK24T0la6mSqgeexEOxPxe18E2H0hOhi3aq28I7S2lx2xrqQPlpXn46ttBw00rkfoE65a');
