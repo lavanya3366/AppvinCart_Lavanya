@@ -4,7 +4,7 @@ import stripe
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.core.mail import send_mail
-
+from django.db.models import Sum
 from app.models import Cart
 from app.models import Product
 
@@ -52,10 +52,6 @@ def add_payment_method(request):
         return render(request, 'payment.html')
 
     
-from django.shortcuts import render
-from django.http import JsonResponse
-from django.core.mail import send_mail
-import stripe
 
 
 def process_payment(request):
@@ -63,17 +59,20 @@ def process_payment(request):
         payment_method_id = request.POST.get('payment_method_id')
 
         try:
+            # Retrieve the user's cart items from the database
+            cart_items = Cart.objects.filter(user=request.user)
+
+            # Calculate the total cost of items in the cart
+            total_cost = cart_items.aggregate(total_cost=Sum('total_cost'))['total_cost'] or 0
+            total_cost = int(total_cost * 100)  # Convert to cents
+
             # Confirm the payment with Stripe
             payment_intent = stripe.PaymentIntent.create(
-               # Adjust amount as needed (in cents)
-                amount=2000,
+                amount=total_cost,
                 currency="usd",
-                automatic_payment_methods={"enabled": True},
-                payment_method_types=["card"],
-
-
-)
-            
+                payment_method=payment_method_id,
+                confirm=True,
+            )
 
             # Save payment information to database (optional)
             # Example: Payment.objects.create(payment_method_id=payment_method_id, user=request.user)
@@ -94,12 +93,37 @@ def process_payment(request):
             return render(request, 'payment_failure.html', {'error': str(e), 'payment_intent': None})
 
     else:
-      payment_intent = stripe.PaymentIntent.create(
-               # Adjust amount as needed (in cents)
-                amount=2000,
-                currency="usd",
-                automatic_payment_methods={"enabled": True},)
-               
         # Return error response if request method is not POST
-      return render(request, 'payment_success.html', {'payment_intent': payment_intent})
+        return render(request, 'payment_failure.html', {'error': 'Method not allowed.', 'payment_intent': None})
+# from django.shortcuts import render
+# from django.http import JsonResponse
+# import stripe
 
+# # Set your Stripe API key
+# stripe.api_key = 'your_stripe_api_key'
+
+# def checkout(request):
+#     if request.method == 'POST':
+#         # Retrieve payment method ID from the request (e.g., from Stripe Elements or Checkout)
+#         payment_method_id = request.POST.get('payment_method_id')
+
+#         # Create or retrieve a customer
+#         customer = stripe.Customer.create(
+#             payment_method=payment_method_id,
+#             email='customer@example.com',
+#         )
+
+#         # Create a payment intent
+#         intent = stripe.PaymentIntent.create(
+#             amount=1000,  # Amount in cents
+#             currency='usd',
+#             customer=customer.id,
+#             payment_method=customer.invoice_settings.default_payment_method,
+#             confirm=True,
+#         )
+
+#         # Optionally, you can return the client secret to complete the payment on the client side
+#         return JsonResponse({'client_secret': intent.client_secret})
+
+#     # If the request method is not POST, render the checkout page
+#     return render(request, 'checkout.html')
